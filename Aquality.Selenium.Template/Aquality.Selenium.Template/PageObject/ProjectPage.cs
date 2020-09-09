@@ -22,12 +22,12 @@ namespace Aquality.Selenium.Template.PageObject
             }
         }
 
-        private readonly By tableLocator = By.XPath("//table[@class='table']//tr");
+        private readonly string tableLocator = "//table[@class='table']//tr";
 
         private int CountRow()
         {
             var elementFactory = AqualityServices.Get<IElementFactory>();
-            var rowsLabels = elementFactory.FindElements<ILabel>(tableLocator);
+            var rowsLabels = elementFactory.FindElements<ILabel>(By.XPath(tableLocator));
             return rowsLabels.Count;
         }
 

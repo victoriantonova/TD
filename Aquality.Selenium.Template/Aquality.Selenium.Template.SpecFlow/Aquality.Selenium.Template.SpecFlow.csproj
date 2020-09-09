@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Aquality.Selenium.Template\Aquality.Selenium.Template.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\TestRail\TestRail.csproj" />
   </ItemGroup>
 
   <ItemGroup>

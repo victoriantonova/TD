@@ -7,15 +7,20 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TestRail.Enums;
+using TestRail.Models;
+using TestRail.Util;
 
 namespace Aquality.Selenium.Template.SpecFlow.Tests
 {
     public class Autotest
     {
+        private const int caseId = 11345480;
+        private const int testRunId = 45755;
+
         [Test]
-        public void Test()
+        public void FirstVariant()
         {
-            //1
             Token token = new Token
             {
                 Variant = ReadConfig.GetParam("configApp", "variant")
@@ -25,7 +30,6 @@ namespace Aquality.Selenium.Template.SpecFlow.Tests
 
             Assert.IsNotNull(token.Value, "Token not generated");
 
-            //2
             AqualityServices.Browser.GoTo(BaseAuthUtil.UriBuilder(ReadConfig.GetParam("configApp", "baseUrl"), ReadConfig.GetParam("configApp", "username"), ReadConfig.GetParam("configApp", "password")).ToString());
             AqualityServices.Browser.Maximize();
 
@@ -38,7 +42,6 @@ namespace Aquality.Selenium.Template.SpecFlow.Tests
 
             Assert.AreEqual(homePage.Footer.GetVariant(), token.Variant, "Variant does not match");
 
-            //3
             Project project = new Project
             {
                 Name = "Nexage"
@@ -54,14 +57,13 @@ namespace Aquality.Selenium.Template.SpecFlow.Tests
 
             ProjectPage projectPage = new ProjectPage();
             List<Test> testsFromPage = projectPage.GetTests();
-            
+
             var afterSortedTestsByDate = testsFromPage.OrderByDescending(p => p.StartTime);
 
             Assert.AreEqual(testsFromPage.Select(x => x.StartTime), afterSortedTestsByDate.Select(x => x.StartTime), "Tests not sorted by date");
 
             Assert.IsTrue(testsFromPage.All(x => tests.Select(y => y.Name).Contains(x.Name)), "Tests don't match");
 
-            //4
             projectPage.Header.ReturnToHomePage();
             homePage.OpenAddProjectWindow();
 
@@ -79,7 +81,6 @@ namespace Aquality.Selenium.Template.SpecFlow.Tests
             AqualityServices.Browser.Refresh();
             Assert.IsTrue(homePage.ProjectIsDisplayed(createdProject.Name), "Project is not display");
 
-            //5
             homePage.OpenProject(createdProject.Name);
 
             DAL.Models.Test createdTest = new DAL.Models.Test
@@ -120,7 +121,6 @@ namespace Aquality.Selenium.Template.SpecFlow.Tests
 
             Assert.IsTrue(AqualityServices.ConditionalWait.WaitFor(() => projectPage.FindTestByName(createdTest.Name)));
 
-            //6
             projectPage.OpenTest(createdTest.Name);
 
             TestPage testPage = new TestPage(createdTest.Name);
@@ -135,6 +135,29 @@ namespace Aquality.Selenium.Template.SpecFlow.Tests
 
             Assert.AreEqual(Convert.ToBase64String(attachment.Content), testPage.GetAttachment(), "Attachment does not match");
             Assert.AreEqual(log.Content, testPage.GetLog(), "Log does not match");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            TestRailUtil testRailUtil = new TestRailUtil(ReadConfig.GetParam("configTestRail", "baseUrl"), ReadConfig.GetParam("configTestRail", "username"), ReadConfig.GetParam("configTestRail", "password"));
+
+            TestResult testResult = new TestResult();
+
+            if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Passed)
+            {
+                testResult.StatusId = (int)Status.Passed;
+                testResult.Comment = "Passed";
+            }
+            else if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
+            {
+                testResult.StatusId = (int)Status.Failed;
+                testResult.Comment = "Failed";
+            }
+
+            testResult = testRailUtil.AddResultForCase(testRunId, caseId, testResult);
+
+            testRailUtil.AddAttachmentToResult(testResult.Id, AqualityServices.Browser.GetScreenshot());
         }
     }
 }
