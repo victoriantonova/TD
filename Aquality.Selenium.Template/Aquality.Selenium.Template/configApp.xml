@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <variant>1</variant>
+    <baseUrl>http://localhost:8080/web </baseUrl>
+    <username>login</username>
+    <password>password</password>
+</config>

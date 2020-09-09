@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <server>localhost</server>
+  <userId>login</userId>
+  <password>password</password>
+  <database>union_reporting</database>
+</config>
