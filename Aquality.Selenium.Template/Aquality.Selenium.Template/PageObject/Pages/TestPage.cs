@@ -12,13 +12,13 @@ namespace Aquality.Selenium.Template.PageObject
         {
         }
 
-        ILabel TestNameLabel => ElementFactory.GetLabel(By.XPath("//div[@class='list-group']//*[contains(text(), 'Test name')]/following::p"), "Test name label");
-        ILabel TestMethodNameLabel => ElementFactory.GetLabel(By.XPath("//div[@class='list-group']//*[contains(text(), 'Test method name')]/following::p"), "Test method name label");
-        ILabel StatusLabel => ElementFactory.GetLabel(By.XPath("//div[@class='list-group']//*[contains(text(), 'Status')]/following::span"), "Status label");
-        ILabel StartTimeLabel => ElementFactory.GetLabel(By.XPath("//div[@class='list-group']//*[contains(text(), 'Start time')]"), "Start time label");
-        ILabel EndTimeLabel => ElementFactory.GetLabel(By.XPath("//div[@class='list-group']//*[contains(text(), 'End time')]"), "End time label");
-        ILabel EnvironmentLabel => ElementFactory.GetLabel(By.XPath("//div[@class='list-group']//*[contains(text(), 'Environment')]/following::p"), "Environment label");
-        ILabel BrowserLabel => ElementFactory.GetLabel(By.XPath("//div[@class='list-group']//*[contains(text(), 'Browser')]/following::p"), "Browser label");
+        ILabel TestNameLabel => ElementFactory.GetLabel(By.XPath("//*[contains(text(), 'Test name')]/following::p"), "Test name label");
+        ILabel TestMethodNameLabel => ElementFactory.GetLabel(By.XPath("//*[contains(text(), 'Test method name')]/following::p"), "Test method name label");
+        ILabel StatusLabel => ElementFactory.GetLabel(By.XPath("//*[contains(text(), 'Status')]/following::span"), "Status label");
+        ILabel StartTimeLabel => ElementFactory.GetLabel(By.XPath("//*[contains(text(), 'Start time')]"), "Start time label");
+        ILabel EndTimeLabel => ElementFactory.GetLabel(By.XPath("//*[contains(text(), 'End time')]"), "End time label");
+        ILabel EnvironmentLabel => ElementFactory.GetLabel(By.XPath("//*[contains(text(), 'Environment')]/following::p"), "Environment label");
+        ILabel BrowserLabel => ElementFactory.GetLabel(By.XPath("//*[contains(text(), 'Browser')]/following::p"), "Browser label");
         ILabel LogLabel => ElementFactory.GetLabel(By.XPath("//div[contains(text(), 'Logs')]/following::td"), "Log label");
         ILabel AttachmentLabel => ElementFactory.GetLabel(By.XPath("//div[contains(text(), 'Attachments')]/following::table//a"), "Attachment");
         
