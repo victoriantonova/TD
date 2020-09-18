@@ -6,9 +6,11 @@ namespace Aquality.Selenium.Template.PageObject
 {
     public class HomePage : Form
     {
-        public HomePage() : base(By.XPath("//div[@class='panel panel-default']//*[contains(text(), 'Available projects')]"), "All project page")
+        public HomePage() : base(By.XPath("//div[contains(text(), 'Available projects')]"), "All project page")
         {
         }
+
+        private const string project = "//div[@class='list-group']/a[contains(text(), '{0}')]";
 
         public Footer Footer
         {
@@ -38,13 +40,13 @@ namespace Aquality.Selenium.Template.PageObject
 
         public void OpenProject(string projectName)
         {
-            IButton projectItemButton = ElementFactory.GetButton(By.XPath($"//div[@class='list-group']/a[contains(text(), '{projectName}')]"), $"{projectName} projectName Button");
+            IButton projectItemButton = ElementFactory.GetButton(By.XPath(string.Format(project, projectName)), $"{projectName} projectName Button");
             projectItemButton.ClickAndWait();
         }
 
-        public bool ProjectIsDisplayed(string projectName)
+        public bool IsProjectDisplayed(string projectName)
         {
-            IButton projectItemButton = ElementFactory.GetButton(By.XPath($"//div[@class='list-group']/a[contains(text(), '{projectName}')]"), $"{projectName} projectName Button");
+            IButton projectItemButton = ElementFactory.GetButton(By.XPath(string.Format(project, projectName)), $"{projectName} projectName Button");
             return projectItemButton.State.IsDisplayed;
         }
 

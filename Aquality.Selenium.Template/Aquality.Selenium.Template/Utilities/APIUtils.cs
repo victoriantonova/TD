@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Aquality.Selenium.Browsers;
+using Aquality.Selenium.Core.Logging;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net;
 
@@ -7,7 +10,7 @@ namespace Aquality.Selenium.Template.Utilities
     class APIUtils
     {
         private static string urlAPI;
-
+        protected static Logger Logger => AqualityServices.Logger;
         static APIUtils()
         {
             urlAPI = ReadConfig.GetParam("configApi", "baseUrl");
@@ -23,8 +26,9 @@ namespace Aquality.Selenium.Template.Utilities
             {
                 return string.IsNullOrEmpty(result) || result == "{}" ? null : JsonConvert.DeserializeObject<T>(result);
             }
-            catch
+            catch(Exception e)
             {
+                Logger.Error(e.Message);
                 return null;
             }
         }
@@ -55,6 +59,7 @@ namespace Aquality.Selenium.Template.Utilities
             }
             catch (WebException e)
             {
+                Logger.Error(e.Message);
                 result = null;
                 return default;
             }
@@ -74,6 +79,7 @@ namespace Aquality.Selenium.Template.Utilities
             }
             catch (WebException e)
             {
+                Logger.Error(e.Message);
                 var statusCode = GetStatusCode(e.Response);
 
                 if (statusCode == (int)HttpStatusCode.NotFound)

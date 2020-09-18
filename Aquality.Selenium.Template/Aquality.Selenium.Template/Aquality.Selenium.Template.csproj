@@ -5,16 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Environment\Prod\config.json" />
-    <None Remove="Resources\Environment\Stage\config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Environment\Prod\config.json" />
-    <EmbeddedResource Include="Resources\Environment\Stage\config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Aquality.Selenium" Version="2.3.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
@@ -27,9 +17,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="configApp.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\settings.azure.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\settings.json">

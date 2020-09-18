@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
   <server>localhost</server>
-  <userId>login</userId>
-  <password>password</password>
+  <userId></userId>
+  <password></password>
   <database>union_reporting</database>
+  <port>3306</port>
 </config>

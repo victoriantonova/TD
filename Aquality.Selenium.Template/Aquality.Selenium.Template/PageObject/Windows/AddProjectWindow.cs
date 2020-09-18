@@ -11,26 +11,31 @@ namespace Aquality.Selenium.Template.PageObject
         {
         }
 
+        private readonly string addProjectFrameName = "addProjectFrame";
+        private readonly string closeMethodName = "closePopUp()";
         ITextBox ProjectNameTextBox => ElementFactory.GetTextBox(By.XPath("//input[@name='projectName']"), "Project Name TextBox");
         IButton SaveProjectButton => ElementFactory.GetButton(By.XPath("//button[@type='submit']"), "Save Project Button");
-        ILabel SuccessLabel => ElementFactory.GetLabel(By.XPath("//div[@class='alert alert-success']"), "Success Label");
+        ILabel SuccessLabel => ElementFactory.GetLabel(By.XPath("//div[contains(@class, 'alert-success')]"), "Success Label");
 
         public void AddProject(string projectName)
         {
-            AqualityServices.Browser.Driver.SwitchTo().Frame("addProjectFrame");
+            AqualityServices.Browser.Driver.SwitchTo().Frame(addProjectFrameName);
             ProjectNameTextBox.ClearAndType(projectName);
             SaveProjectButton.ClickAndWait();
+            AqualityServices.Browser.Driver.SwitchTo().DefaultContent();
         }
 
         public bool SuccessIsDisplayed()
         {
-            return SuccessLabel.State.IsDisplayed;
+            AqualityServices.Browser.Driver.SwitchTo().Frame(addProjectFrameName);
+            bool result = SuccessLabel.State.IsDisplayed;
+            AqualityServices.Browser.Driver.SwitchTo().DefaultContent();
+            return result;
         }
 
         public void ClosePopUp()
         {
-            AqualityServices.Browser.Refresh();
-            AqualityServices.Browser.ExecuteScript("closePopUp()");
+            AqualityServices.Browser.ExecuteScript(closeMethodName);
         }
     }
 }

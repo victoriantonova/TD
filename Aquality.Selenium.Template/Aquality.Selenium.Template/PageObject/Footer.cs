@@ -1,6 +1,7 @@
 ﻿using Aquality.Selenium.Elements.Interfaces;
 using Aquality.Selenium.Forms;
 using OpenQA.Selenium;
+using System.Text.RegularExpressions;
 
 namespace Aquality.Selenium.Template.PageObject
 {
@@ -10,12 +11,21 @@ namespace Aquality.Selenium.Template.PageObject
         {
         }
 
-        ILabel FooterLabel => ElementFactory.GetLabel(By.XPath("//footer//span"), "Footer label");
+        ILabel FooterLabel => ElementFactory.GetLabel(By.XPath("//footer//*[contains(text(), 'Version:')]"), "Footer label");
         
         public string GetVariant()
         {
             var footerText = FooterLabel.Text;
-            return footerText.Substring(footerText.IndexOf(" ") + 1);
+            
+            string pattern = @"\d{1,}";
+            Regex rgx = new Regex(pattern);
+
+            string variant = string.Empty;
+
+            foreach (Match match in rgx.Matches(footerText))
+                variant = match.Value;
+
+            return variant;
         }
     }
 }

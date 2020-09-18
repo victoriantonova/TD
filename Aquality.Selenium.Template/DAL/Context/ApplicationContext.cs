@@ -26,7 +26,7 @@ namespace DAL.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql($"server={ReadConfig.GetParam("configDb", "server")};UserId={ReadConfig.GetParam("configDb", "userId")};Password={ReadConfig.GetParam("configDb", "password")};database={ReadConfig.GetParam("configDb", "database")};");
+            optionsBuilder.UseMySql($"server={ReadConfig.GetParam("configDb", "server")};port={ReadConfig.GetParam("configDb", "port")};UserId={ReadConfig.GetParam("configDb", "userId")};Password={ReadConfig.GetParam("configDb", "password")};database={ReadConfig.GetParam("configDb", "database")};");
         }
     }
 }
